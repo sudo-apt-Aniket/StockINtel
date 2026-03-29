@@ -35,6 +35,51 @@ graph TD
 - **AI/ML Layer**: Custom Agent-based pipeline for contextual reasoning
 
 ---
+4. Agent Architecture
+The system uses a multi-agent design where each agent performs a specialized task.
+DataFetchAgent
+Retrieves stock data from NSE or fallback providers
+Normalizes OHLCV data
+Applies validation checks
+SignalAgent
+Detects:
+Volume spikes
+Momentum
+Trend signals
+Outputs signal type and confidence contribution
+PatternAgent
+Identifies:
+Breakouts
+Support and resistance levels
+RSI conditions
+Enhances signal reliability
+ExplanationAgent
+Generates human-readable insights using LLM
+Outputs:
+Explanation
+Reasoning
+Risk
+Insight
+Portfolio context
+Includes: - Strict JSON schema enforcement - Deterministic output (temperature = 0, fixed seed) -
+Fallback logic if LLM fails
+5. Tool Integrations
+Market Data
+NSE-based provider (primary)
+Fallback providers (e.g., yfinance)
+Includes validation layer to ensure data quality
+
+LLM Integration
+Used in ExplanationAgent
+Generates plain-English explanations and insights
+Controlled via structured prompts and schema validation
+Persistence Layer (SQLite)
+Stores: - Analysis history - Alerts lifecycle - Portfolio data
+6. Communication Flow
+DataFetchAgent → SignalAgent → PatternAgent → ExplanationAgent
+Each agent: - Receives structured input - Returns structured output - Remains independent and
+stateless
+This ensures modularity, easy debugging, and scalability.
 
 ## 🚀 Setup Instructions
 
