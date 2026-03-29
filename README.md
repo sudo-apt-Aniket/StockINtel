@@ -36,6 +36,7 @@ graph TD
 
 ---
 4. Agent Architecture
+
 The system uses a multi-agent design where each agent performs a specialized task.
 DataFetchAgent
 Retrieves stock data from NSE or fallback providers
