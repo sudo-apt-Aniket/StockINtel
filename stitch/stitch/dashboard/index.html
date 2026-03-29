@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.ICICIBANKeapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.ICICIBANKeapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.ICICIBANKeapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error-container": "#ffdad6",
+              "tertiary-fixed": "#ffdad7",
+              "surface-variant": "#e0e3e5",
+              "tertiary-container": "#410004",
+              "primary": "#000000",
+              "secondary": "#006e2f",
+              "on-tertiary-container": "#ef4444",
+              "on-primary-container": "#7c839b",
+              "on-secondary-container": "#007432",
+              "surface-container-high": "#e6e8ea",
+              "on-surface-variant": "#45464d",
+              "error": "#ba1a1a",
+              "inverse-primary": "#bec6e0",
+              "on-secondary": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-background": "#191c1e",
+              "on-tertiary": "#ffffff",
+              "surface": "#f7f9fb",
+              "inverse-on-surface": "#eff1f3",
+              "inverse-surface": "#2d3133",
+              "primary-fixed-dim": "#bec6e0",
+              "on-tertiary-fixed": "#410004",
+              "surface-container-lowest": "#ffffff",
+              "secondary-container": "#6bff8f",
+              "surface-tint": "#565e74",
+              "surface-container-low": "#f2f4f6",
+              "surface-container": "#eceef0",
+              "on-tertiary-fixed-variant": "#930013",
+              "secondary-fixed": "#6bff8f",
+              "outline": "#76777d",
+              "on-error": "#ffffff",
+              "background": "#f7f9fb",
+              "on-surface": "#191c1e",
+              "on-secondary-fixed": "#002109",
+              "tertiary": "#000000",
+              "on-primary-fixed-variant": "#3f465c",
+              "primary-container": "#131b2e",
+              "outline-variant": "#c6c6cd",
+              "surface-dim": "#d8dadc",
+              "on-secondary-fixed-variant": "#005321",
+              "tertiary-fixed-dim": "#ffb3ad",
+              "primary-fixed": "#dae2fd",
+              "surface-bright": "#f7f9fb",
+              "secondary-fixed-dim": "#4ae176",
+              "on-primary-fixed": "#131b2e",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm font-['Inter'] antialiased">
+<div class="flex items-center justify-between px-6 h-16 w-full max-w-screen-2xl mx-auto">
+<div class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-50">StockIntel</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Dashboard</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors active:scale-95 transition-all duration-200" href="#">Radar</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors active:scale-95 transition-all duration-200" href="#">Portfolio</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors active:scale-95 transition-all duration-200" href="#">Alerts</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-lg active:scale-95 transition-all duration-200">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</button>
+<div class="flex items-center gap-2 px-2 py-1 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-lg transition-colors cursor-pointer">
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-surface-variant" data-alt="Close-up professional portrait of a man in a modern office setting with soft natural window lighting" src="https://lh3.ICICIBANKeusercontent.com/aida-public/AB6AXuAWKfztHzaCfd8ih0lgPkV-eiCIqxj1onx-5STu4B4mD5LUQBtSeFU7CO8FHudmzEWx9bV06TTzycpylgQiuVVWyqQUMWR8MCdoTnEOhtMEMXBkGrVKClQ5COmhig2WIfJ-JR0ddyoT-F2EiOOYR7LUCsXs4-Qi8e8um5aybn6bCUz9KisZe7G2t2Drt-fKxh2NPbx70KVlT8qBefMS9gMUOttA1GYezhbQ-5c02koJpHxesHD08Lvn8vbSrJoh6Ymdo2UlUqDY"/>
+<span class="hidden sm:inline text-sm font-medium">Settings</span>
+</div>
+</div>
+</div>
+</nav>
+<aside class="fixed left-0 top-16 bottom-0 p-4 space-y-2 h-screen w-64 hidden lg:flex flex-col border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 font-['Inter'] text-sm">
+<div class="mb-6 px-2 flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+</div>
+<div>
+<p class="font-bold text-lg text-slate-900 dark:text-slate-50">Intelligence</p>
+<p class="text-[10px] uppercase tracking-widest text-on-primary-container">Premium Tier</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/30 rounded-xl transition-transform hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+                Market Overview
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/30 rounded-xl hover:translate-x-1 transition-transform active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="pie_chart">pie_chart</span>
+                Sector Analysis
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/30 rounded-xl hover:translate-x-1 transition-transform active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+                AI Insights
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/30 rounded-xl hover:translate-x-1 transition-transform active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+                Watchlists
+            </a>
+</nav>
+</aside>
+<main class="pt-24 lg:pl-72 px-6 pb-20 max-w-screen-2xl mx-auto space-y-12">
+<header class="flex flex-col items-center justify-center text-center space-y-8 py-12">
+<div class="space-y-2">
+<p class="text-xs font-bold uppercase tracking-widest text-on-primary-container opacity-60">Precision Terminal</p>
+<h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">Market Intelligence</h1>
+</div>
+<div class="w-full max-w-2xl relative group">
+<div class="absolute inset-y-0 left-5 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full pl-14 pr-32 py-5 bg-surface-container-low focus:bg-surface-container-lowest text-lg border-none rounded-xl transition-all outline-none ring-0 focus:ring-1 focus:ring-surface-tint/20" placeholder="Search symbol (e.g. RELIANCE, RELIANCE, TCS)..." type="text"/>
+<button class="absolute right-2 top-2 bottom-2 px-6 bg-primary text-on-primary rounded-lg font-semibold text-sm hover:opacity-90 active:scale-95 transition-all">
+                    Quick Analyze
+                </button>
+</div>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<section class="md:col-span-8 bg-surface-container-low rounded-xl p-6 space-y-6">
+<div class="flex items-center justify-between">
+<h2 class="text-xl font-semibold tracking-tight">Portfolio Summary</h2>
+<span class="material-symbols-outlined text-outline">more_horiz</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm space-y-2">
+<p class="text-[10px] font-bold uppercase tracking-widest text-outline">Net Liquidity</p>
+<p class="text-2xl font-bold">₹124,502.84</p>
+<div class="flex items-center gap-1 text-secondary text-xs font-semibold">
+<span class="material-symbols-outlined text-sm">arrow_upward</span>
+                            2.4% Today
+                        </div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm space-y-2">
+<p class="text-[10px] font-bold uppercase tracking-widest text-outline">Risk Exposure</p>
+<p class="text-2xl font-bold">Moderate</p>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full mt-2">
+<div class="bg-primary w-[45%] h-full rounded-full"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm space-y-2">
+<p class="text-[10px] font-bold uppercase tracking-widest text-outline">Efficiency Score</p>
+<p class="text-2xl font-bold">92/100</p>
+<div class="flex items-center gap-1 text-on-primary-container text-xs font-semibold">
+                            Top 5% Tier
+                        </div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden">
+<div class="px-6 py-4 border-b border-surface-container flex items-center justify-between">
+<span class="text-xs font-bold uppercase tracking-widest text-outline">Core Holdings</span>
+<span class="text-xs font-semibold text-primary cursor-pointer">View All</span>
+</div>
+<div class="divide-y divide-surface-container">
+<div class="px-6 py-4 flex items-center justify-between hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center text-white text-xs font-bold">TCS</div>
+<div>
+<p class="font-semibold text-sm">Tata Consultancy Services</p>
+<p class="text-xs text-outline">120 Shares</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-semibold text-sm">₹192.42</p>
+<p class="text-xs text-secondary font-medium">+1.2%</p>
+</div>
+</div>
+<div class="px-6 py-4 flex items-center justify-between hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-slate-900 flex items-center justify-center text-white text-xs font-bold">HDFCBANK</div>
+<div>
+<p class="font-semibold text-sm">HDFC Bank</p>
+<p class="text-xs text-outline">45 Shares</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-semibold text-sm">₹415.52</p>
+<p class="text-xs text-secondary font-medium">+0.8%</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="md:col-span-4 space-y-6">
+<div class="bg-surface-container-lowest border-l-4 border-primary p-6 rounded-xl shadow-sm space-y-6">
+<h2 class="text-xl font-semibold tracking-tight">Top Opportunities</h2>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+<div>
+<p class="font-bold text-sm">RELIANCE</p>
+<p class="text-[10px] text-outline uppercase font-bold">Signal: High</p>
+</div>
+</div>
+<span class="px-2 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded-full">BUY</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+<div>
+<p class="font-bold text-sm">INFY</p>
+<p class="text-[10px] text-outline uppercase font-bold">Signal: Med</p>
+</div>
+</div>
+<span class="px-2 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded-full">BUY</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl space-y-4">
+<h2 class="text-xs font-bold uppercase tracking-widest text-outline">Recent Analyses</h2>
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-medium text-sm">ITC</span>
+<span class="text-xs text-secondary font-bold flex items-center gap-1">
+                                Bullish <span class="material-symbols-outlined text-xs">bolt</span>
+</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-medium text-sm">TCS</span>
+<span class="text-xs text-on-tertiary-container font-bold flex items-center gap-1">
+                                Bearish <span class="material-symbols-outlined text-xs">warning</span>
+</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-medium text-sm">ICICIBANK</span>
+<span class="text-xs text-outline font-bold">Neutral</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-medium text-sm">BHARTIARTL</span>
+<span class="text-xs text-secondary font-bold flex items-center gap-1">
+                                Bullish <span class="material-symbols-outlined text-xs">bolt</span>
+</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="relative h-64 rounded-2xl overflow-hidden group cursor-pointer">
+<img alt="Market Chart" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Modern high-tech stock market trading terminal display showing glowing green and red candlestick charts on dark screens" src="https://lh3.ICICIBANKeusercontent.com/aida-public/AB6AXuCOn7rIEdbz8z4REYRkV3G4x4XlO0pTNQQ0aEzVwHpmC0hpAQ0EwpRT3oxVYw1LRDlFiFl3YEWK-poPbYQ1wGeD4wp-WLMh-F8OIXMeijcVZZAyzfuFmQ3dTpO1eUpN01WpfRI43Gn_QfPDfsmeDvidcZWSqoC1HZub6HQZYRPJgv-4uNFRDzjPMRO3ASepR7rm5Dviszan25lPWKZReE1Ob-EvNEOhMWnYvZO7Vym9hYvPvcnskGEVujcW_POE2kn0T4_jwDxG"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute bottom-6 left-6 text-white">
+<p class="text-[10px] font-bold uppercase tracking-widest opacity-70">Deep Dive</p>
+<h3 class="text-xl font-bold">Semiconductor Outlook</h3>
+</div>
+</div>
+<div class="relative h-64 rounded-2xl overflow-hidden group cursor-pointer">
+<img alt="AI Concept" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Abstract visualization of neural networks and digital brain glowing with soft blue and white lights on a black background" src="https://lh3.ICICIBANKeusercontent.com/aida-public/AB6AXuADR0gp0UVLmZvWP7yKNA0jOBDGqDb2VsIx038QBG5DzGBC76bwlHFvjL6otwj-Wa3lzbiWMhkT3Y5FbvM-4XrrzZ9-48H4ayv7EZRs-s-qFOyZl1b2OU0iNq4FXAv2pktOaBIsyogpyNnZUzxPHwuza6PD7tP9R7J_N-oabQeQXdzpIRY5__7E1aDs0KiZfDBSFow9noGsK6LBf5laAccE3F2bvqA8G49vm5kJr433COSrq43Lz2f3yjOakqt2BnnVqj1lfqrP"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute bottom-6 left-6 text-white">
+<p class="text-[10px] font-bold uppercase tracking-widest opacity-70">AI Alpha</p>
+<h3 class="text-xl font-bold">Sentiment Algorithm V4</h3>
+</div>
+</div>
+<div class="bg-primary-container rounded-2xl p-8 flex flex-col justify-between text-on-primary">
+<div class="space-y-2">
+<h3 class="text-2xl font-bold">Custom Signals</h3>
+<p class="text-on-primary-container text-sm">Automate your strategy with precision-grade logic triggers.</p>
+</div>
+<button class="w-full py-4 bg-white text-primary rounded-xl font-bold text-sm hover:bg-surface-container-high transition-colors active:scale-95">
+                    Launch Signal Builder
+                </button>
+</div>
+</section>
+</main>
+<footer class="w-full py-12 px-6 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 font-['Inter'] text-xs uppercase tracking-widest">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6 max-w-screen-2xl mx-auto text-slate-400 dark:text-slate-500">
+<p>© 2024 StockIntel Precision. Editorial Fintech Grade.</p>
+<div class="flex gap-8">
+<a class="hover:text-slate-900 dark:hover:text-slate-100 transition-colors opacity-80 hover:opacity-100" href="#">About</a>
+<a class="hover:text-slate-900 dark:hover:text-slate-100 transition-colors opacity-80 hover:opacity-100" href="#">Help</a>
+<a class="hover:text-slate-900 dark:hover:text-slate-100 transition-colors opacity-80 hover:opacity-100" href="#">Privacy</a>
+<a class="hover:text-slate-900 dark:hover:text-slate-100 transition-colors opacity-80 hover:opacity-100" href="#">Terms</a>
+</div>
+</div>
+</footer>
+
+
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a').forEach(a => {
+        let text = a.textContent.trim();
+        const icon = a.querySelector('.material-symbols-outlined');
+        if (icon) {
+            text = text.replace(icon.textContent, '').trim();
+        }
+        
+        let targetHref = null;
+        if(text === 'Market Overview' || text === 'Dashboard') targetHref = '../dashboard/index.html';
+        else if(text === 'Sector Analysis' || text === 'Radar') targetHref = '../opportunity_radar/index.html';
+        else if(text === 'AI Insights') targetHref = '../stock_analysis/index.html';
+        else if(text === 'Watchlists' || text === 'Portfolio') targetHref = '../portfolio/index.html';
+        else if(text === 'Alerts') targetHref = '../alerts/index.html';
+        
+        if (targetHref && !a.href.includes(targetHref.replace('../', ''))) {
+            a.href = targetHref;
+        }
+    });
+});
+</script>
+
+
+<script>
+// DYNAMIC_DATA_FETCH
+document.addEventListener('DOMContentLoaded', async () => {
+    // Quick analyze button
+    const qInput = document.querySelector('header input');
+    const qBtn = document.querySelector('header button');
+    function doAnalyze() {
+        if(qInput.value.trim()) window.location.href = '../stock_analysis/index.html?symbol=' + encodeURIComponent(qInput.value.trim());
+    }
+    if (qBtn) qBtn.onclick = doAnalyze;
+    if (qInput) qInput.addEventListener('keypress', e => { if(e.key==='Enter') doAnalyze(); });
+
+    // Recent Analyses
+    const rcContainer = Array.from(document.querySelectorAll('h2')).find(h => h.textContent.includes('Recent Analyses')).parentElement.querySelector('div.space-y-3');
+    if (rcContainer) {
+        rcContainer.innerHTML = '<p class="text-sm">Loading...</p>';
+        try {
+            const res = await fetch('http://localhost:8000/analyses');
+            const data = await res.json();
+            rcContainer.innerHTML = '';
+            data.slice(0, 4).forEach(item => {
+                rcContainer.innerHTML += `
+                <div class="flex items-center justify-between cursor-pointer hover:bg-surface-container-lowest p-2 rounded -mx-2" onclick="window.location.href='../stock_analysis/index.html?symbol=${item.symbol}'">
+                    <span class="font-medium text-sm">${item.symbol}</span>
+                    <span class="text-xs text-outline font-bold">${(item.confidence*100).toFixed(0)}% Conf</span>
+                </div>`;
+            });
+        } catch(e){}
+    }
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('nav a').forEach(a => {
+        let isMatch = false;
+        
+        // Normalize text
+        let text = a.textContent.trim();
+        const icon = a.querySelector('.material-symbols-outlined');
+        if (icon) text = text.replace(icon.textContent, '').trim();
+
+        if ((text === 'Market Overview' || text === 'Dashboard') && currentPath.includes('dashboard')) isMatch = true;
+        else if ((text === 'Sector Analysis' || text === 'Radar') && currentPath.includes('opportunity_radar')) isMatch = true;
+        else if (text === 'AI Insights' && currentPath.includes('stock_analysis')) isMatch = true;
+        else if ((text === 'Watchlists' || text === 'Portfolio') && currentPath.includes('portfolio')) isMatch = true;
+        else if (text === 'Alerts' && currentPath.includes('alerts')) isMatch = true;
+
+        if (isMatch) {
+            // Apply top nav active state
+            if (!a.querySelector('.material-symbols-outlined')) {
+                a.className = "text-slate-900 dark:text-white font-semibold border-b-2 border-slate-900 dark:border-slate-50 pb-1";
+            } 
+            // Apply sidebar active state
+            else {
+                a.className = "flex items-center gap-3 px-4 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm rounded-xl font-medium";
+            }
+        }
+    });
+});
+</script>
+
+</body></html>

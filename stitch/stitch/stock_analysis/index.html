@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>StockIntel | Advanced Stock Analysis</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.ICICIBANKeapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.ICICIBANKeapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.ICICIBANKeapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error-container": "#ffdad6",
+              "tertiary-fixed": "#ffdad7",
+              "surface-variant": "#e0e3e5",
+              "tertiary-container": "#410004",
+              "primary": "#000000",
+              "secondary": "#006e2f",
+              "on-tertiary-container": "#ef4444",
+              "on-primary-container": "#7c839b",
+              "on-secondary-container": "#007432",
+              "surface-container-high": "#e6e8ea",
+              "on-surface-variant": "#45464d",
+              "error": "#ba1a1a",
+              "inverse-primary": "#bec6e0",
+              "on-secondary": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-background": "#191c1e",
+              "on-tertiary": "#ffffff",
+              "surface": "#f7f9fb",
+              "inverse-on-surface": "#eff1f3",
+              "inverse-surface": "#2d3133",
+              "primary-fixed-dim": "#bec6e0",
+              "on-tertiary-fixed": "#410004",
+              "surface-container-lowest": "#ffffff",
+              "secondary-container": "#6bff8f",
+              "surface-tint": "#565e74",
+              "surface-container-low": "#f2f4f6",
+              "surface-container": "#eceef0",
+              "on-tertiary-fixed-variant": "#930013",
+              "secondary-fixed": "#6bff8f",
+              "outline": "#76777d",
+              "on-error": "#ffffff",
+              "background": "#f7f9fb",
+              "on-surface": "#191c1e",
+              "on-secondary-fixed": "#002109",
+              "tertiary": "#000000",
+              "on-primary-fixed-variant": "#3f465c",
+              "primary-container": "#131b2e",
+              "outline-variant": "#c6c6cd",
+              "surface-dim": "#d8dadc",
+              "on-secondary-fixed-variant": "#005321",
+              "tertiary-fixed-dim": "#ffb3ad",
+              "primary-fixed": "#dae2fd",
+              "surface-bright": "#f7f9fb",
+              "secondary-fixed-dim": "#4ae176",
+              "on-primary-fixed": "#131b2e",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm font-['Inter'] antialiased">
+<div class="flex items-center justify-between px-6 h-16 w-full max-w-screen-2xl mx-auto">
+<div class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-50">StockIntel</div>
+<div class="hidden md:flex items-center space-gap-8 gap-8">
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Dashboard</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Radar</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Portfolio</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors" href="#">Alerts</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="bg-slate-100/50 dark:bg-slate-800/50 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary w-48 lg:w-64" placeholder="Search markets..." type="text"/>
+</div>
+<button class="text-slate-500 dark:text-slate-400 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 p-2 rounded-lg transition-all active:scale-95">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-slate-200 overflow-hidden">
+<img alt="User Profile" data-alt="professional male headshot with neutral background, soft studio lighting, high resolution" src="https://lh3.ICICIBANKeusercontent.com/aida-public/AB6AXuCXPAoN0d63tKhOipIBfsqr8VETOuD-WaKJk0EOdAFWsIKJyZ_AxHYweKvg4U4AI6nKjRxUQB5rfoplSLFoBhhqwtYDlxctz-lg380HH-TrO1XknFihI-mUIvin8sEtcZpoW-gHU3ltj7SxG2TYz5VPoFOXc9anT28TpA3ZPhOY-xnZndbCcUSslPe97I9ng1pigoBsT9TBcZW9OYd13u2qxOonfHvApelrth-vsgF1KcCD_rNB1O9p-nMcc_lFNerGqECLe8yK"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Hidden on small screens) -->
+<aside class="h-screen w-64 hidden lg:flex flex-col border-r border-slate-200 dark:border-slate-800 fixed left-0 top-16 bottom-0 p-4 space-y-2 bg-slate-50 dark:bg-slate-900 font-['Inter'] text-sm">
+<div class="mb-6 px-2">
+<div class="flex items-center gap-3 mb-1">
+<div class="h-8 w-8 rounded-lg bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" data-weight="fill">psychology</span>
+</div>
+<span class="font-bold text-lg text-slate-900 dark:text-slate-50">Intelligence</span>
+</div>
+<p class="text-slate-500 text-[10px] uppercase tracking-widest pl-11">Premium Tier</p>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/30 rounded-xl transition-transform hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+                Market Overview
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/30 rounded-xl transition-transform hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="pie_chart">pie_chart</span>
+                Sector Analysis
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/30 rounded-xl transition-transform hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+                AI Insights
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/30 rounded-xl transition-transform hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+                Watchlists
+            </a>
+</nav>
+</aside>
+<!-- Main Content -->
+<main class="lg:ml-64 pt-24 px-6 pb-20 max-w-screen-xl mx-auto">
+<!-- Input Section -->
+<header class="mb-12">
+<div class="flex flex-col md:flex-row gap-4 items-end bg-surface-container-low p-6 rounded-xl">
+<div class="flex-1 w-full">
+<label class="block text-[10px] font-bold uppercase tracking-wider text-on-surface-variant mb-2 pl-1">Analyze Asset</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input id="symbol-input" class="w-full bg-surface-container-lowest border-none rounded-lg h-14 pl-12 pr-4 text-xl font-semibold focus:ring-2 focus:ring-primary shadow-sm" placeholder="Enter Ticker (e.g. TCS)" type="text" value="₹RELIANCE"/>
+</div>
+</div>
+<button id="run-analysis-btn" class="bg-primary text-on-primary h-14 px-8 rounded-xl font-semibold flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all w-full md:w-auto">
+<span class="material-symbols-outlined">analytics</span>
+                    Run AI Analysis
+                </button>
+</div>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Output Card (MOST IMPORTANT) -->
+<section class="lg:col-span-8 space-y-6">
+<div class="bg-surface-container-lowest rounded-xl p-8 shadow-sm relative overflow-hidden group">
+<!-- Subtle Background Gradient -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary/5 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+<div class="relative z-10">
+<div class="flex flex-wrap justify-between items-start gap-4 mb-10">
+<div>
+<h1 id="stock-title" class="text-5xl font-extrabold tracking-tighter text-on-surface mb-1">₹RELIANCE</h1>
+<p class="text-on-surface-variant font-medium">Reliance Industries</p>
+</div>
+<div class="text-right">
+<div id="signal-badge" class="inline-flex items-center px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container font-bold text-sm tracking-wide mb-2">
+<span class="material-symbols-outlined text-sm mr-1" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+                                    BULLISH
+                                </div>
+<p class="text-3xl font-bold">₹822.79 <span class="text-secondary text-sm font-semibold">+2.45%</span></p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<span class="text-sm font-bold text-on-surface-variant uppercase tracking-widest">AI Confidence</span>
+<span id="confidence-text" class="text-2xl font-black text-on-surface">92%</span>
+</div>
+<div class="w-full h-3 bg-surface-container-high rounded-full overflow-hidden">
+<div id="confidence-bar" class="h-full bg-secondary w-[92%] rounded-full"></div>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">Based on 142 distinct technical indicators and real-time sentiment analysis from 4.2M financial data points.</p>
+</div>
+<div class="flex flex-col gap-3">
+<button id="action-btn" class="w-full bg-secondary text-white py-5 rounded-xl font-bold text-lg shadow-lg shadow-secondary/20 hover:shadow-xl hover:shadow-secondary/30 transition-all active:scale-[0.98] flex items-center justify-center gap-3">
+<span class="material-symbols-outlined text-2xl">shopping_cart</span>
+                                    AI Suggests: BUY
+                                </button>
+<div class="flex gap-3">
+<button class="flex-1 bg-surface-container-highest text-on-surface py-3 rounded-xl font-semibold hover:bg-surface-dim transition-colors">Set Alert</button>
+<button class="flex-1 bg-surface-container-highest text-on-surface py-3 rounded-xl font-semibold hover:bg-surface-dim transition-colors">Compare</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Explanation Section -->
+<div class="bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+                        AI Reasoning Engine
+                    </h2>
+<div class="prose prose-slate max-w-none">
+<p id="explanation-text" class="text-lg text-on-surface leading-relaxed mb-8 font-medium">
+                            Reliance continues to demonstrate exceptional momentum driven by the accelerating demand for 5G rollout and retail infrastructure expansion. Our neural network detects a high-probability "Golden Cross" formation on the 4-hour chart, supported by institutional accumulation patterns not seen since Q3 2023.
+                        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="p-5 rounded-xl bg-surface-container-low">
+<h3 class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-secondary">verified</span>
+                                Reasoning
+                            </h3>
+<ul id="reasoning-block" class="space-y-3 text-sm text-on-surface">
+<li class="flex gap-2">
+<span class="text-secondary">•</span>
+                                    Digital services revenue projected +22% QoQ.
+                                </li>
+<li class="flex gap-2">
+<span class="text-secondary">•</span>
+                                    Network density improving for Jio subscriber additions.
+                                </li>
+</ul>
+</div>
+<div class="p-5 rounded-xl bg-surface-container-low">
+<h3 class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-error">warning</span>
+                                Risk
+                            </h3>
+<ul id="risk-block" class="space-y-3 text-sm text-on-surface">
+<li class="flex gap-2">
+<span class="text-error">•</span>
+                                    Geopolitical export restrictions.
+                                </li>
+<li class="flex gap-2">
+<span class="text-error">•</span>
+                                    High P/E ratio vs sector average.
+                                </li>
+</ul>
+</div>
+<div class="p-5 rounded-xl bg-surface-container-low">
+<h3 class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary">lightbulb</span>
+                                Insight
+                            </h3>
+<p id="insight-block" class="text-sm text-on-surface leading-snug">
+                                Institutional "Smart Money" flow has increased by 14% in the last 72 hours, preceding historical breakout windows.
+                            </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Sidebar Info -->
+<section class="lg:col-span-4 space-y-6">
+<!-- Portfolio Insight Section -->
+<div class="bg-tertiary-container text-on-tertiary rounded-xl p-6 relative overflow-hidden">
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-on-tertiary-container bg-white rounded-full p-1" style="font-variation-settings: 'FILL' 1;">priority_high</span>
+<h3 class="font-bold">Portfolio Risk Warning</h3>
+</div>
+<p id="portfolio-context" class="text-sm text-on-tertiary/90 mb-4 leading-relaxed">
+                            Adding ₹RELIANCE will increase your total <span class="font-bold underline">IT Sector Exposure to 64%</span>. This exceeds your defined risk threshold of 45%.
+                        </p>
+<div class="bg-black/20 rounded-lg p-3 flex items-center justify-between">
+<span class="text-xs font-medium">Risk Score Change</span>
+<span class="text-on-tertiary-container font-black">+18.2%</span>
+</div>
+</div>
+</div>
+<!-- Market Context Bento -->
+<div class="bg-surface-container-low rounded-xl p-6">
+<h3 class="text-sm font-bold mb-4 uppercase tracking-wider text-on-surface-variant">Market Context</h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/10">
+<span class="text-sm text-on-surface-variant">NIFTY 50 Correlation</span>
+<span class="text-sm font-semibold">0.84 (High)</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/10">
+<span class="text-sm text-on-surface-variant">Relative Strength (RSI)</span>
+<span class="text-sm font-semibold text-secondary">62.4</span>
+</div>
+<div class="flex justify-between items-center py-2">
+<span class="text-sm text-on-surface-variant">Volatility Index (IV)</span>
+<span class="text-sm font-semibold text-error">42%</span>
+</div>
+</div>
+</div>
+<!-- Related Assets -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+<h3 class="text-sm font-bold mb-4 uppercase tracking-wider text-on-surface-variant">Sector Peers</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 bg-surface-container-low rounded-lg flex items-center justify-center font-bold text-xs">MARUTI</div>
+<div>
+<p class="text-sm font-bold">MARUTI Inc.</p>
+<p class="text-[10px] text-on-surface-variant">Neutral</p>
+</div>
+</div>
+<span class="text-sm font-bold">-0.12%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 bg-surface-container-low rounded-lg flex items-center justify-center font-bold text-xs">LT</div>
+<div>
+<p class="text-sm font-bold">LTC</p>
+<p class="text-[10px] text-secondary font-bold">Strong Buy</p>
+</div>
+</div>
+<span class="text-sm font-bold text-secondary">+1.85%</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-6 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 font-['Inter'] text-xs uppercase tracking-widest text-slate-400 dark:text-slate-500">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6 max-w-screen-2xl mx-auto">
+<div>
+                © 2024 StockIntel Precision. Editorial Fintech Grade.
+            </div>
+<div class="flex gap-8">
+<a class="hover:text-slate-900 dark:hover:text-slate-100 transition-colors opacity-80 hover:opacity-100" href="#">About</a>
+<a class="hover:text-slate-900 dark:hover:text-slate-100 transition-colors opacity-80 hover:opacity-100" href="#">Help</a>
+<a class="hover:text-slate-900 dark:hover:text-slate-100 transition-colors opacity-80 hover:opacity-100" href="#">Privacy</a>
+<a class="hover:text-slate-900 dark:hover:text-slate-100 transition-colors opacity-80 hover:opacity-100" href="#">Terms</a>
+</div>
+</div>
+</footer>
+<script>
+    document.getElementById('run-analysis-btn').addEventListener('click', async () => {
+        const symbolInput = document.getElementById('symbol-input').value.trim();
+        if (!symbolInput) return;
+
+        const btn = document.getElementById('run-analysis-btn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Analyzing...';
+        btn.disabled = true;
+
+        try {
+            const response = await fetch('http://localhost:8000/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ symbol: symbolInput.replace('$', '').replace('₹', '') })
+            });
+            const data = await response.json();
+
+            document.getElementById('stock-title').innerText = '$' + (data.symbol || symbolInput);
+            
+            // Update signal
+            const signalBadge = document.getElementById('signal-badge');
+            signalBadge.innerHTML = `<span class="material-symbols-outlined text-sm mr-1" style="font-variation-settings: 'FILL' 1;">${data.signal === 'bullish' ? 'trending_up' : data.signal === 'bearish' ? 'trending_down' : 'horizontal_rule'}</span> ${data.signal.toUpperCase()}`;
+            signalBadge.className = \`inline-flex items-center px-4 py-1.5 rounded-full font-bold text-sm tracking-wide mb-2 ${data.signal === 'bullish' ? 'bg-secondary-container text-on-secondary-container' : 'bg-error-container text-on-error-container'}\`;
+            
+            // Confidence
+            const confVal = Math.round((data.confidence || 0) * 100);
+            document.getElementById('confidence-text').innerText = \`${confVal}%\`;
+            document.getElementById('confidence-bar').style.width = \`${confVal}%\`;
+
+            // Action
+            document.getElementById('action-btn').innerHTML = `<span class="material-symbols-outlined text-2xl">shopping_cart</span> AI Suggests: ${data.action.toUpperCase()}`;
+            
+            // Text sections
+            document.getElementById('explanation-text').innerText = data.explanation || 'No explanation provided.';
+            
+            // Reasoning list parsing (it might be a block of text, converting to list items)
+            const reasoningArr = (data.reasoning || '').split('.').filter(i => i.trim().length > 0);
+            document.getElementById('reasoning-block').innerHTML = reasoningArr.map(item => \`<li class="flex gap-2"><span class="text-secondary">•</span>\${item.trim()}.</li>\`).join('');
+            
+            const riskArr = (data.risk || '').split('.').filter(i => i.trim().length > 0);
+            document.getElementById('risk-block').innerHTML = riskArr.map(item => \`<li class="flex gap-2"><span class="text-error">•</span>\${item.trim()}.</li>\`).join('');
+
+            document.getElementById('insight-block').innerText = data.insight || 'No insight.';
+            document.getElementById('portfolio-context').innerText = data.portfolio_context || 'No portfolio context provided.';
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to run AI Analysis. Please try again.');
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    });
+
+    // Auto-run if symbol is in URL param
+    window.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('symbol')) {
+            document.getElementById('symbol-input').value = urlParams.get('symbol');
+            document.getElementById('run-analysis-btn').click();
+        }
+    });
+</script>
+
+
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a').forEach(a => {
+        let text = a.textContent.trim();
+        const icon = a.querySelector('.material-symbols-outlined');
+        if (icon) {
+            text = text.replace(icon.textContent, '').trim();
+        }
+        
+        let targetHref = null;
+        if(text === 'Market Overview' || text === 'Dashboard') targetHref = '../dashboard/index.html';
+        else if(text === 'Sector Analysis' || text === 'Radar') targetHref = '../opportunity_radar/index.html';
+        else if(text === 'AI Insights') targetHref = '../stock_analysis/index.html';
+        else if(text === 'Watchlists' || text === 'Portfolio') targetHref = '../portfolio/index.html';
+        else if(text === 'Alerts') targetHref = '../alerts/index.html';
+        
+        if (targetHref && !a.href.includes(targetHref.replace('../', ''))) {
+            a.href = targetHref;
+        }
+    });
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('nav a').forEach(a => {
+        let isMatch = false;
+        
+        // Normalize text
+        let text = a.textContent.trim();
+        const icon = a.querySelector('.material-symbols-outlined');
+        if (icon) text = text.replace(icon.textContent, '').trim();
+
+        if ((text === 'Market Overview' || text === 'Dashboard') && currentPath.includes('dashboard')) isMatch = true;
+        else if ((text === 'Sector Analysis' || text === 'Radar') && currentPath.includes('opportunity_radar')) isMatch = true;
+        else if (text === 'AI Insights' && currentPath.includes('stock_analysis')) isMatch = true;
+        else if ((text === 'Watchlists' || text === 'Portfolio') && currentPath.includes('portfolio')) isMatch = true;
+        else if (text === 'Alerts' && currentPath.includes('alerts')) isMatch = true;
+
+        if (isMatch) {
+            // Apply top nav active state
+            if (!a.querySelector('.material-symbols-outlined')) {
+                a.className = "text-slate-900 dark:text-white font-semibold border-b-2 border-slate-900 dark:border-slate-50 pb-1";
+            } 
+            // Apply sidebar active state
+            else {
+                a.className = "flex items-center gap-3 px-4 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm rounded-xl font-medium";
+            }
+        }
+    });
+});
+</script>
+
+</body></html>
