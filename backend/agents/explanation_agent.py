@@ -143,7 +143,7 @@ class ExplanationAgent:
         )
 
         stance = self._determine_stance(bullish_count, bearish_count)
-        alert = self._build_alert(signals.symbol, signals.confidence, stance)
+        alert = self._build_alert(signals.symbol, signals.confidence, stance, signals)
         recommendation = self._build_recommendation(stance, watch_patterns, patterns.rsi)
         rationale = self._build_rationale(
             signals=signals,
@@ -169,13 +169,26 @@ class ExplanationAgent:
             return "bearish"
         return "mixed"
 
-    def _build_alert(self, symbol: str, confidence: float, stance: str) -> str:
-        """Create a concise alert headline for the current setup."""
+    def _build_alert(self, symbol: str, confidence: float, stance: str, signals: SignalResult) -> str:
+        """Create a grounded headline using the primary signal detail."""
+        primary = next((s for s in signals.signals if s["status"] == stance), signals.signals[0])
+        details = primary.get("details", {})
+        
         if stance == "bullish":
-            return f"{symbol} is showing a constructive setup with confidence {confidence:.2f}."
+            msg = f"{symbol} indicates a constructive setup ({confidence:.1f} confidence)"
+            if primary["type"] == "price_breakout":
+                msg += f" as price recently pushed {details.get('price_change_pct', 0)}% above its previous close."
+            elif primary["type"] == "volume_spike":
+                msg += f" supported by a significant {details.get('volume_ratio', 0)}x volume spike."
+            return msg + "."
+            
         if stance == "bearish":
-            return f"{symbol} is showing cautionary weakness with confidence {confidence:.2f}."
-        return f"{symbol} is showing mixed signals with confidence {confidence:.2f}."
+            msg = f"{symbol} indicates cautionary weakness ({confidence:.1f} confidence)"
+            if primary["type"] == "price_breakout":
+                msg += f" after a {details.get('price_change_pct', 0)}% retracement from recent levels."
+            return msg + "."
+            
+        return f"{symbol} is currently showing mixed volatility signals ({confidence:.1f} confidence) requiring more confirmation."
 
     def _build_recommendation(
         self, stance: str, watch_patterns: List[Dict[str, Any]], rsi: Optional[float]

@@ -53,8 +53,7 @@ export default function Dashboard() {
                     getRadarData(['RELIANCE', 'TCS', 'INFY'])
                 ]);
                 // Ensure no AAPL in recent traces for the demo
-                const domesticRecent = recentData.filter(d => !['AAPL', 'MSFT', 'NVDA'].includes(d.symbol));
-                setRecent(domesticRecent.slice(0, 4));
+                setRecent(recentData.slice(0, 4));
                 setOpportunities(radarData.slice(0, 3));
             } catch (err) {
                 console.error(err);
@@ -112,9 +111,9 @@ export default function Dashboard() {
             {/* Core Stats Bento */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                 <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    <StatWidget label="Domestic Liquidity" value="₹1,24,502" trend="+2.4% Today" icon={Wallet} color="text-secondary" bg="bg-secondary-container/10" />
-                    <StatWidget label="IT Sector Exposure" value="High" trend="45% Allocated" icon={BarChart3} color="text-primary-container" bg="bg-primary-container/5" />
-                    <StatWidget label="Efficiency Quotient" value="92/100" trend="Top 5% Tier" icon={Target} color="text-slate-900" bg="bg-surface-container-high" />
+                    <StatWidget label="System Uptime" value="99.98%" trend="Nominal Stance" icon={Activity} color="text-secondary" bg="bg-secondary-container/10" />
+                    <StatWidget label="Vector Coverage" value="FULL" trend="All Sectors Active" icon={BarChart3} color="text-primary-container" bg="bg-primary-container/5" />
+                    <StatWidget label="Neural Accuracy" value="94.2%" trend="Validated Model" icon={Target} color="text-slate-900" bg="bg-surface-container-high" />
                 </div>
                 
                 <div className="md:col-span-4 bg-surface-container-lowest p-8 rounded-3xl border border-outline-variant/10 shadow-sm relative overflow-hidden group">
@@ -132,7 +131,7 @@ export default function Dashboard() {
                                 <div className="flex items-center gap-4">
                                     <TrendingUp className="w-4 h-4 text-secondary group-hover/row:scale-125 transition-transform" />
                                     <div>
-                                        <p className="font-black text-sm text-slate-900 tracking-tight">₹{item.symbol}</p>
+                                        <p className="font-black text-sm text-slate-900 tracking-tight">{item.symbol}</p>
                                         <p className="text-[10px] text-outline font-black tracking-widest uppercase">Signal: {item.confidence > 0.7 ? 'High' : 'Med'}</p>
                                     </div>
                                 </div>
@@ -158,7 +157,7 @@ export default function Dashboard() {
                                 onClick={() => navigate(`/analysis?symbol=${item.symbol}`)}
                                 className="flex items-center justify-between p-4 rounded-xl hover:bg-white hover:shadow-sm transition-all cursor-pointer group border border-transparent hover:border-outline-variant/10"
                             >
-                                <span className="font-black text-sm text-slate-700 tracking-tight group-hover:text-primary">₹{item.symbol}</span>
+                                <span className="font-black text-sm text-slate-700 tracking-tight group-hover:text-primary">{item.symbol}</span>
                                 <div className="flex items-center gap-2">
                                     <span className="text-[10px] font-black px-2 py-0.5 bg-surface-container text-outline rounded group-hover:bg-primary-container group-hover:text-white transition-all uppercase">{item.timeframe}</span>
                                     <ChevronRight className="w-4 h-4 text-outline group-hover:translate-x-1 transition-transform" />
@@ -179,7 +178,8 @@ export default function Dashboard() {
                     <img 
                         alt="Market Chart" 
                         className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" 
-                        src="https://plus.unsplash.com/premium_photo-1670213989452-2069ed073187?q=80&w=2670&auto=format&fit=crop"
+                        src="/assets/chart.png"
+                        style={{ filter: 'brightness(0.7) saturate(1.3)' }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-10 flex flex-col justify-end gap-3 translate-y-2 group-hover:translate-y-0 transition-transform">
                         <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/50">Market Intelligence</p>

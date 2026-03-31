@@ -93,7 +93,7 @@ export default function Alerts() {
                                              <span className="text-[10px] font-black uppercase tracking-widest">Confidence Index: {(alert.confidence * 100).toFixed(0)}%</span>
                                          </div>
                                          <div className="w-1.5 h-1.5 rounded-full bg-outline-variant shadow-inner" />
-                                         <span className="text-[10px] uppercase font-black tracking-widest text-outline">Risk Vector: High Momentum</span>
+                                         <span className="text-[10px] uppercase font-black tracking-widest text-outline">Risk Vector: {alert.confidence > 0.8 ? 'High Conviction' : 'Standard Baseline'}</span>
                                     </div>
                                 </div>
 
@@ -146,8 +146,8 @@ export default function Alerts() {
                         <div className="space-y-6 relative z-10">
                             {[
                                 { label: 'Signal Guard', status: 'Active', icon: TrendingUp },
-                                { label: 'Alpha Leak Sensor', status: 'Stable', icon: Activity },
-                                { label: 'HFT Vector Block', status: 'Bypassed', icon: LayoutGrid },
+                                { label: 'Intelligence Sensor', status: 'Optimal', icon: Activity },
+                                { label: 'HFT Vector Block', status: 'Active', icon: LayoutGrid },
                             ].map((s, i) => (
                                 <div key={i} className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5 group/row hover:bg-white/10 transition-all cursor-default">
                                     <div className="flex items-center gap-3">

@@ -12,8 +12,8 @@ function App() {
     <div className="min-h-screen bg-surface flex flex-col">
       <TopNav />
       <div className="flex flex-1 pt-16">
-        <Sidebar className="hidden lg:flex w-64 fixed left-0 top-16 bottom-0" />
-        <main className="flex-1 lg:pl-64 p-6 overflow-y-auto">
+        <Sidebar className="hidden lg:flex w-52 fixed left-0 top-16 bottom-0" />
+        <main className="flex-1 lg:pl-52 p-6 overflow-y-auto">
           <div className="max-w-screen-2xl mx-auto">
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />

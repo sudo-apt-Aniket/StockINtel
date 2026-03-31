@@ -88,8 +88,8 @@ export default function Radar() {
                                                 <span className="text-xs font-black">{item.symbol.substring(0, 4)}</span>
                                             </div>
                                             <div>
-                                                <p className="font-black text-lg text-slate-900 tracking-tighter">₹{item.symbol}</p>
-                                                <p className="text-[10px] text-outline font-black uppercase group-hover:text-primary transition-colors tracking-widest">Premium Tier</p>
+                                                <p className="font-black text-lg text-slate-900 tracking-tighter">{item.symbol}</p>
+                                                <p className="text-[10px] text-outline font-black uppercase group-hover:text-primary transition-colors tracking-widest">Active Neural Scan</p>
                                             </div>
                                         </div>
                                     </td>
@@ -139,10 +139,10 @@ export default function Radar() {
             {/* Quick Summary Grid */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 {[
-                    { label: 'Market State', value: 'NSE / BSE ACTIVE', color: 'text-secondary', icon: Activity },
-                    { label: 'Vol Filter', value: 'ULTRA-PRECISE', color: 'text-primary-container', icon: Zap },
-                    { label: 'Scanned Symbols', value: filteredData.length, color: 'text-slate-900', icon: Target },
-                    { label: 'Confidence Threshold', value: 'MIN 60%', color: 'text-outline', icon: ShieldCheckIcon },
+                    { label: 'Market State', value: 'LIVE EXCHANGE FEED', color: 'text-secondary', icon: Activity },
+                    { label: 'Intelligence Tier', value: 'INSTITUTIONAL GRADE', color: 'text-primary-container', icon: Zap },
+                    { label: 'Active Vector Scans', value: filteredData.length, color: 'text-slate-900', icon: Target },
+                    { label: 'System Compliance', value: 'SECURE', color: 'text-outline', icon: ShieldCheckIcon },
                 ].map((stat, i) => (
                     <div key={i} className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 flex items-center gap-4 group hover:shadow-lg hover:shadow-black/5 transition-all">
                         <div className="p-3 bg-surface-container-low rounded-xl group-hover:scale-110 transition-transform">

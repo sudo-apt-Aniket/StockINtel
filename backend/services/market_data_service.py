@@ -45,7 +45,7 @@ class MockMarketDataProvider:
 class YFinanceMarketDataProvider:
     """Best-effort live provider backed by yfinance when available."""
 
-    history_period: str = "1mo"
+    history_period: str = "1y"
 
     def fetch_snapshot(self, request: AgentRequest) -> MarketSnapshot:
         try:
@@ -185,7 +185,7 @@ class NseYahooMarketDataProvider:
     """India-first live provider backed by Yahoo Finance chart endpoints without Stooq fallback."""
 
     base_url: str = "https://query1.finance.yahoo.com/v8/finance/chart"
-    history_range: str = "1mo"
+    history_range: str = "3mo"
     interval: str = "1d"
 
     def fetch_snapshot(self, request: AgentRequest) -> MarketSnapshot:
@@ -193,9 +193,14 @@ class NseYahooMarketDataProvider:
         # Canonical rule: append .NS if no dot
         yahoo_symbol = symbol if "." in symbol else "{}.NS".format(symbol)
         
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "application/json",
+        }
         response = httpx.get(
             "{}/{}".format(self.base_url, yahoo_symbol),
             params={"range": self.history_range, "interval": self.interval},
+            headers=headers,
             timeout=10.0,
         )
         response.raise_for_status()

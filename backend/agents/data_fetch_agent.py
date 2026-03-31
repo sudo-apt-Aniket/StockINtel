@@ -32,18 +32,32 @@ class DataFetchAgent:
         return self.fetch_stock_data(request)
 
     def fetch_stock_data(self, request: AgentRequest) -> MarketSnapshot:
-        """Retrieve stock and news data from the configured providers."""
-        snapshot = self.provider.fetch_snapshot(request)
-        if request.include_news:
+        """Retrieve stock and news data concurrently to reduce latency and prevent timeouts."""
+        import concurrent.futures
+        
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+            # Step 1: Submit market and news tasks
+            market_future = executor.submit(self.provider.fetch_snapshot, request)
+            news_future = None
+            if request.include_news:
+                news_future = executor.submit(self.news_provider.fetch_headlines, request.symbol.upper())
+
+            # Step 2: Resolve futures
             try:
-                snapshot.news_headlines = self.news_provider.fetch_headlines(request.symbol.upper())
-                snapshot.metadata["news_source"] = (
-                    self.news_provider.__class__.__name__.replace("Provider", "").lower()
-                )
+                snapshot = market_future.result(timeout=15.0)
             except Exception as exc:
-                snapshot.news_headlines = []
-                snapshot.metadata["news_source"] = "unavailable"
-                snapshot.metadata["news_error"] = str(exc)
+                raise RuntimeError(f"Market fetch timed out or failed for {request.symbol}: {exc}") from exc
+
+            if news_future:
+                try:
+                    snapshot.news_headlines = news_future.result(timeout=10.0)
+                    snapshot.metadata["news_source"] = (
+                        self.news_provider.__class__.__name__.replace("Provider", "").lower()
+                    )
+                except Exception as exc:
+                    snapshot.news_headlines = []
+                    snapshot.metadata["news_source"] = "unavailable"
+                    snapshot.metadata["news_error"] = str(exc)
         
         self._validate_market_data(snapshot)
         return snapshot

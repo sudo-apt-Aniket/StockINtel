@@ -62,9 +62,10 @@ export default function TopNav() {
             </div>
             <div className="w-9 h-9 rounded-full bg-slate-200 overflow-hidden ring-2 ring-white dark:ring-slate-950 border border-outline-variant/10 shadow-sm cursor-pointer active:scale-90 transition-all">
               <img 
-                src="https://lh3.googleusercontent.com/a/ACg8ocIW3gZ_e5xYvK8R9_YvQZ3YvQZ3YvQZ3YvQZ3YvQZ3YvQZ3Y=s96-c" 
+                src="/assets/avatar.png" 
                 alt="Profile" 
                 className="w-full h-full object-cover"
+                onError={(e) => { e.target.onerror = null; e.target.src = 'https://ui-avatars.com/api/?name=Analyst&background=1e293b&color=fff&size=96'; }}
               />
             </div>
           </div>

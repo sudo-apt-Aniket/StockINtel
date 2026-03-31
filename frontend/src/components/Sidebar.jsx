@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Radar, BrainCircuit, Wallet, Bell, PieChart, Activity, Search } from 'lucide-react'
+import { Activity, PieChart, BrainCircuit, Wallet, Bell } from 'lucide-react'
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -17,53 +17,65 @@ const navItems = [
 
 export default function Sidebar({ className }) {
   return (
-    <aside className={cn("flex flex-col border-r border-outline-variant/10 bg-slate-50 dark:bg-slate-900 p-4 gap-4 h-full", className)}>
-      <div className="flex items-center gap-3 px-3 py-2 mb-2 flex-shrink-0">
-        <div className="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-white shadow-lg shadow-primary-container/20">
-          <BrainCircuit className="w-6 h-6" />
+    <aside className={cn(
+      "flex flex-col border-r border-slate-200/60 bg-white/95 backdrop-blur-sm p-3 gap-2 h-full",
+      className
+    )}>
+      {/* Brand */}
+      <div className="flex items-center gap-2.5 px-2 py-3 mb-1 flex-shrink-0">
+        <div className="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-white shadow-md shadow-primary-container/30 flex-shrink-0">
+          <BrainCircuit className="w-4 h-4" />
         </div>
         <div>
-          <p className="font-bold text-lg text-slate-900 dark:text-slate-50 leading-tight">Intelligence</p>
-          <p className="text-[10px] uppercase tracking-widest text-on-primary-container font-semibold opacity-70">Domestic Tier</p>
+          <p className="font-black text-sm text-slate-900 leading-tight">Intelligence</p>
+          <p className="text-[9px] uppercase tracking-widest text-slate-400 font-semibold">Domestic Tier</p>
         </div>
       </div>
 
-      <nav className="flex-1 space-y-1 overflow-y-auto pr-2 custom-scrollbar">
+      {/* Nav */}
+      <nav className="flex-1 space-y-0.5 overflow-y-auto">
+        <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 px-3 py-1 mb-1">Navigation</p>
         {navItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
             className={({ isActive }) =>
               cn(
-                "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group relative w-full",
+                "flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-all duration-150 group w-full",
                 isActive
-                  ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm font-semibold translate-x-1"
-                  : "text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/30 hover:translate-x-1 active:scale-95 text-xs font-bold uppercase tracking-wider"
+                  ? "bg-slate-900 text-white shadow-sm"
+                  : "text-slate-500 hover:bg-slate-100 hover:text-slate-800"
               )
             }
           >
             {({ isActive }) => (
               <>
-                <item.icon className={cn("w-5 h-5", isActive ? "text-primary dark:text-white" : "text-slate-400 group-hover:text-slate-600 transition-colors")} />
-                <span className={cn("text-xs transition-colors", isActive ? "" : "opacity-80")}>{item.name}</span>
-                {isActive && <div className="absolute left-0 w-1 h-1/2 bg-primary rounded-full" />}
+                <item.icon className={cn("w-4 h-4 flex-shrink-0", isActive ? "text-white" : "text-slate-400 group-hover:text-slate-600")} />
+                <span className={cn("text-xs font-semibold truncate", isActive ? "text-white" : "")}>
+                  {item.name}
+                </span>
+                {isActive && (
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-white/50 flex-shrink-0" />
+                )}
               </>
             )}
           </NavLink>
         ))}
       </nav>
 
-      <div className="mt-auto px-4 py-5 bg-white dark:bg-slate-800 rounded-2xl border border-outline-variant/10 shadow-sm flex-shrink-0">
-        <p className="text-[10px] font-black text-on-tertiary-container uppercase tracking-widest mb-3 opacity-60">Market Sentiment</p>
-        <div className="flex items-center justify-between gap-4">
-          <div className="h-2.5 flex-1 bg-surface-container-high rounded-full overflow-hidden shadow-inner">
-            <div 
-              className="h-full bg-secondary rounded-full shadow-lg shadow-secondary/20 transition-all duration-1000" 
+      {/* Market Sentiment */}
+      <div className="mt-auto flex-shrink-0 px-3 py-4 bg-slate-50 rounded-xl border border-slate-200/80">
+        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Market Mood</p>
+        <div className="flex items-center justify-between gap-3 mb-1.5">
+          <div className="h-1.5 flex-1 bg-slate-200 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-emerald-500 rounded-full transition-all duration-1000"
               style={{ width: '72%' }}
             />
           </div>
-          <span className="text-xs font-black text-secondary">72%</span>
+          <span className="text-xs font-black text-emerald-600 flex-shrink-0">72%</span>
         </div>
+        <p className="text-[9px] text-slate-400 font-medium">Bullish Bias — NSE</p>
       </div>
     </aside>
   )

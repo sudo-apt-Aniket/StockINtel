@@ -11,20 +11,47 @@ function cn(...inputs) {
 export default function Portfolio() {
     const [portfolios, setPortfolios] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [newName, setNewName] = useState('');
+    const [newSymbols, setNewSymbols] = useState('');
+    const [error, setError] = useState('');
+
+    const fetchPortfolios = async () => {
+        setLoading(true);
+        try {
+            const data = await getPortfolios();
+            setPortfolios(data);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchPortfolios = async () => {
-            try {
-                const data = await getPortfolios();
-                setPortfolios(data);
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchPortfolios();
     }, []);
+
+    const handleCreate = async () => {
+        if (!newName || !newSymbols) {
+            setError('Please provide both a name and symbols.');
+            return;
+        }
+        setError('');
+        try {
+            const symbols = newSymbols.split(',').map(s => s.trim()).filter(Boolean);
+            const response = await fetch('/api/portfolios', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: newName, symbols }),
+            });
+            if (!response.ok) throw new Error('Failed to create portfolio');
+            setNewName('');
+            setNewSymbols('');
+            fetchPortfolios();
+        } catch (err) {
+            setError(err.message);
+        }
+    };
 
     return (
         <div className="space-y-12 animate-in fade-in slide-in-from-bottom-6 duration-1000">
@@ -63,27 +90,36 @@ export default function Portfolio() {
                                     className="w-full bg-surface-container-lowest border-outline-variant/10 border rounded-2xl px-5 py-4 text-sm font-bold focus:ring-4 focus:ring-primary-container/5 transition-all outline-none" 
                                     placeholder="e.g. NIFTY Core Growth" 
                                     type="text"
+                                    value={newName}
+                                    onChange={(e) => setNewName(e.target.value)}
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-outline pl-2">Market Symbols</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-outline pl-2">Market Symbols (Comma Separated)</label>
                                 <div className="flex gap-3">
                                     <div className="flex-1 relative">
                                         <input 
                                             className="w-full bg-surface-container-lowest border-outline-variant/10 border rounded-2xl pl-12 pr-4 py-4 text-sm font-bold focus:ring-4 focus:ring-primary-container/5 transition-all outline-none" 
                                             placeholder="RELIANCE, TCS..." 
                                             type="text"
+                                            value={newSymbols}
+                                            onChange={(e) => setNewSymbols(e.target.value)}
                                         />
                                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-outline" />
                                     </div>
-                                    <button className="p-4 bg-primary text-white rounded-2xl flex items-center justify-center shadow-lg shadow-primary/10 active:scale-95 hover:bg-slate-800 transition-all">
+                                    <button 
+                                        onClick={handleCreate}
+                                        className="p-4 bg-primary text-white rounded-2xl flex items-center justify-center shadow-lg shadow-primary/10 active:scale-95 hover:bg-slate-800 transition-all">
                                         <Plus className="w-6 h-6" />
                                     </button>
                                 </div>
+                                {error && <p className="text-[10px] font-bold text-error pl-2">{error}</p>}
                             </div>
                         </div>
                         
-                        <button className="w-full bg-primary text-white py-5 rounded-2xl font-black text-xs tracking-widest active:scale-95 transition-transform shadow-xl shadow-primary/20 hover:opacity-90">
+                        <button 
+                            onClick={handleCreate}
+                            className="w-full bg-primary text-white py-5 rounded-2xl font-black text-xs tracking-widest active:scale-95 transition-transform shadow-xl shadow-primary/20 hover:opacity-90">
                             INITIALIZE PORTFOLIO
                         </button>
                     </div>
@@ -150,11 +186,11 @@ export default function Portfolio() {
                                 <div className="flex items-center gap-12 border-t md:border-t-0 md:border-l border-outline-variant/10 pt-6 md:pt-0 md:pl-10">
                                     <div className="text-right leading-none">
                                         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-outline mb-2">Net Value</p>
-                                        <p className="text-2xl font-black text-slate-900 tracking-tighter">₹85,200</p>
+                                        <p className="text-2xl font-black text-slate-900 tracking-tighter">--</p>
                                     </div>
                                     <div className="text-right leading-none">
                                         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-outline mb-2">Alpha Yield</p>
-                                        <p className="text-2xl font-black text-secondary tracking-tighter">+14.2%</p>
+                                        <p className="text-2xl font-black text-secondary tracking-tighter">--</p>
                                     </div>
                                     <div className="w-12 h-12 bg-surface-container rounded-2xl flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all group-hover:translate-x-1 outline outline-4 outline-transparent group-hover:outline-primary/5 shadow-sm">
                                         <ChevronRight className="w-6 h-6" />

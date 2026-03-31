@@ -64,6 +64,8 @@ class StrictStockResponse(BaseModel):
     risk: str
     insight: str
     portfolio_context: str
+    rsi: float
+    volatility: float
     timestamp: str
 
 class RadarPayload(BaseModel):
@@ -204,6 +206,23 @@ app.add_middleware(
 )
 
 
+@app.get("/")
+def read_root():
+    """Welcome page for the backend API."""
+    return {
+        "message": "Stock Intelligence API is Live",
+        "docs": "/docs",
+        "health": "/health",
+        "status": "operational",
+        "neural_engine": "v2 (Grounded)"
+    }
+
+
+@app.get("/ping")
+def ping():
+    return {"status": "pong"}
+
+
 @app.middleware("http")
 async def add_request_context(request: Request, call_next):
     """Attach a request id and emit request lifecycle logs."""
@@ -322,16 +341,20 @@ def opportunity_radar(payload: RadarPayload) -> RadarResponse:
     import datetime
     results = []
     request_id = request_id_context.get()
+    symbols = payload.symbols or ["RELIANCE", "TCS", "INFY", "HDFCBANK", "ITC"]
     
-    for symbol in payload.symbols:
-        request = AgentRequest(
+    logger.info(f"RADAR_START: request_id={request_id} symbols={symbols}")
+    
+    for symbol in symbols:
+        inner_request = AgentRequest(
             symbol=symbol,
             timeframe=payload.timeframe,
             portfolio=[],
             include_news=payload.include_news,
         )
         try:
-            result = pipeline.run(request)
+            logger.info(f"RADAR_PROCESSING: {symbol}")
+            result = pipeline.run(inner_request)
             response = result.to_dict()
             
             # Map to strict format
@@ -343,25 +366,33 @@ def opportunity_radar(payload: RadarPayload) -> RadarResponse:
             sig_text = response["explanation"]["alert"].lower()
             signal = "bullish" if "bullish" in sig_text or "constructive" in sig_text else "bearish" if "bearish" in sig_text or "weakness" in sig_text else "neutral"
 
-            results.append(
-                StrictStockResponse(
-                    symbol=symbol,
-                    signal=signal,
-                    confidence=response["explanation"]["confidence"],
-                    action=action.upper(),
-                    explanation=response["explanation"]["alert"],
-                    reasoning=response["explanation"]["rationale"],
-                    risk="Market conditions and specific sentiment risks apply.",
-                    insight=response["explanation"]["recommendation"],
-                    portfolio_context=response["explanation"].get("portfolio_insights", "No portfolio provided."),
-                    timestamp=datetime.datetime.utcnow().isoformat() + "Z"
-                )
+            res = StrictStockResponse(
+                symbol=symbol,
+                signal=signal,
+                confidence=result.signals.confidence,
+                action=action.upper(),
+                explanation=response["explanation"]["alert"],
+                reasoning=response["explanation"]["rationale"],
+                risk="Market conditions and specific sentiment risks apply.",
+                insight=response["explanation"]["recommendation"],
+                portfolio_context=response["explanation"].get("portfolio_insights", "No portfolio provided."),
+                rsi=response["patterns"].get("rsi", 50.0),
+                volatility=response["patterns"].get("volatility", 0.0),
+                timestamp=datetime.datetime.utcnow().isoformat() + "Z"
             )
+            results.append(res)
+            logger.info(f"RADAR_SUCCESS: {symbol} score={res.confidence}")
         except Exception as exc:
-            log_event(logger, "radar_scan_failed", request_id=request_id, symbol=symbol, error=str(exc))
-            continue
+            logger.error(f"RADAR_FAILURE: {symbol} error={str(exc)}")
+            results.append(StrictStockResponse(
+                symbol=symbol, signal="neutral", confidence=0.0, action="ERROR",
+                explanation=f"Analysis failed: {str(exc)}",
+                reasoning="Processing error.", risk="N/A", insight="N/A", portfolio_context="N/A",
+                rsi=50.0, volatility=0.0, timestamp=datetime.datetime.utcnow().isoformat() + "Z"
+            ))
             
     results.sort(key=lambda x: x.confidence, reverse=True)
+    logger.info(f"RADAR_COMPLETE: count={len(results)}")
     return RadarResponse(results=results)
 
 
@@ -440,5 +471,7 @@ def analyze_stock(payload: AnalyzeStockPayload) -> StrictStockResponse:
         risk="Market conditions and specific sentiment risks apply.",
         insight=response["explanation"]["recommendation"],
         portfolio_context=response["explanation"].get("portfolio_insights") or "No portfolio provided.",
+        rsi=response["patterns"].get("rsi", 50.0),
+        volatility=response["patterns"].get("volatility", 0.0),
         timestamp=datetime.datetime.utcnow().isoformat() + "Z"
     )

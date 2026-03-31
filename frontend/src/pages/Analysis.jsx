@@ -133,12 +133,12 @@ export default function Analysis() {
                             <div className="relative z-10 flex flex-col md:flex-row justify-between items-start gap-8 mb-12">
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-3">
-                                        <h2 className="text-6xl font-black tracking-tighter text-slate-900">₹{data.symbol}</h2>
+                                        <h2 className="text-6xl font-black tracking-tighter text-slate-900 tracking-tight">{data?.symbol || '---'}</h2>
                                         <div className={cn(
                                             "mt-2 px-4 py-1.5 rounded-full text-xs font-black tracking-widest shadow-sm border",
                                             data.signal === 'bullish' ? 'bg-secondary-container text-on-secondary-container border-secondary/10' : 'bg-error-container text-on-error/80 border-error/10'
                                         )}>
-                                            {data.signal.toUpperCase()}
+                                            {data?.signal?.toUpperCase() || 'NEUTRAL'}
                                         </div>
                                     </div>
                                     <p className="text-lg font-bold text-slate-400 tracking-tight">Market Asset Analysis Profile</p>
@@ -148,9 +148,9 @@ export default function Analysis() {
                                     <div className="flex flex-col items-end gap-1">
                                         <span className="text-[10px] font-black uppercase tracking-widest text-outline">Confidence Signal</span>
                                         <div className="flex items-center gap-3">
-                                            <span className="text-4xl font-black text-slate-900">{(data.confidence * 100).toFixed(0)}%</span>
+                                            <span className="text-4xl font-black text-slate-900">{((data?.confidence || 0) * 100).toFixed(0)}%</span>
                                             <div className="w-24 h-4 bg-surface-container rounded-full overflow-hidden border border-outline-variant/5">
-                                                <div className="h-full bg-secondary transition-all duration-1000" style={{ width: `${data.confidence * 100}%` }} />
+                                                <div className="h-full bg-secondary transition-all duration-1000" style={{ width: `${(data?.confidence || 0) * 100}%` }} />
                                             </div>
                                         </div>
                                     </div>
@@ -159,7 +159,7 @@ export default function Analysis() {
                                         data.signal === 'bullish' ? 'bg-secondary shadow-secondary/20 hover:shadow-secondary/30' : 'bg-error shadow-error/20 hover:shadow-error/30'
                                     )}>
                                         <ShoppingCart className="w-6 h-6" />
-                                        ACTION: {data.action.toUpperCase()}
+                                        ACTION: {data?.action?.toUpperCase() || 'HOLD'}
                                     </button>
                                 </div>
                             </div>
@@ -172,7 +172,7 @@ export default function Analysis() {
                                     <h3 className="text-xl font-black text-slate-900 tracking-tight">Executive Summary</h3>
                                 </div>
                                 <p className="text-xl font-medium text-slate-600 leading-relaxed max-w-3xl">
-                                    {data.explanation}
+                                    {data?.explanation || 'No explanation available.'}
                                 </p>
                             </div>
                         </div>
@@ -213,7 +213,7 @@ export default function Analysis() {
                                     <h3 className="text-lg font-black tracking-tight">System Risk Assessment</h3>
                                 </div>
                                 <p className="text-sm font-medium text-on-tertiary/70 leading-relaxed">
-                                    {data.risk}
+                                    {data?.risk || 'Risk profile not analyzed.'}
                                 </p>
                                 <div className="pt-4 border-t border-white/10 space-y-4">
                                     <div className="flex items-center justify-between">
@@ -229,8 +229,22 @@ export default function Analysis() {
 
                         {/* Additional Stats */}
                         <div className="grid grid-cols-1 gap-4">
-                             <StatCard label="Relative Strength (RSI)" value="64.2" trend="up" trendValue="+2.1%" icon={Activity} colorClass="text-secondary" />
-                             <StatCard label="Volatility Profile" value="Moderate" trend="down" trendValue="-0.4%" icon={ShieldCheck} colorClass="text-primary-container" />
+                             <StatCard 
+                                label="Relative Strength (RSI)" 
+                                value={data?.rsi?.toFixed(1) || "50.0"} 
+                                trend={(data?.rsi || 50) >= 50 ? "up" : "down"} 
+                                trendValue={(data?.rsi || 50) >= 70 ? "Overbought" : (data?.rsi || 50) <= 30 ? "Oversold" : "Normal"} 
+                                icon={Activity} 
+                                colorClass="text-secondary" 
+                             />
+                             <StatCard 
+                                label="Volatility Profile" 
+                                value={(data?.volatility || 0) > 20 ? "High" : (data?.volatility || 0) > 5 ? "Moderate" : "Low"} 
+                                trend="down" 
+                                trendValue={`${(data?.volatility || 0).toFixed(2)} SD`} 
+                                icon={ShieldCheck} 
+                                colorClass="text-primary-container" 
+                             />
                         </div>
 
                         <div className="p-8 bg-surface-container-lowest border border-outline-variant/10 rounded-3xl shadow-sm">

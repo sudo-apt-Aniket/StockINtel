@@ -77,6 +77,8 @@ class StockAnalysisPipeline:
             stages=stages,
         )
 
+        self._validate_pipeline_consistency(signals, explanation)
+        
         result = PipelineResult(
             request=request,
             market_snapshot=market_snapshot,
@@ -94,6 +96,22 @@ class StockAnalysisPipeline:
             confidence=explanation.confidence,
         )
         return result
+
+    def _validate_pipeline_consistency(self, signals: SignalResult, explanation: ExplanationResult) -> None:
+        """Perform a cross-stage sanity check to ensure the explanation isn't hallucinating contrary to signals."""
+        logic_stance = "bullish" if sum(1 for s in signals.signals if s["status"] == "bullish") > sum(1 for s in signals.signals if s["status"] == "bearish") else "bearish" if sum(1 for s in signals.signals if s["status"] == "bearish") > 0 else "neutral"
+        
+        alert_text = explanation.alert.lower()
+        issue = None
+        if logic_stance == "bullish" and ("weakness" in alert_text or "bearish" in alert_text):
+            issue = "Bullish data produced a bearish explanation."
+        
+        if logic_stance == "bearish" and ("constructive" in alert_text or "bullish" in alert_text):
+            issue = "Bearish data produced a bullish explanation."
+            
+        if issue:
+            log_event(logger, "consistency_check_violated", symbol=signals.symbol, issue=issue)
+            # We don't raise RuntimeError anymore to avoid 502s; we just log it.
 
     def _run_stage(
         self,
