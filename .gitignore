@@ -44,3 +44,4 @@ Thumbs.db
 *.txt
 *.md
 !README.md
+!requirements.txt
